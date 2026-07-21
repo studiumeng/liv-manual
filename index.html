@@ -74,24 +74,39 @@
   // ======================================================================
   const APTOS = {
     "101": {
-      manual:    "https://1drv.ms/b/c/1d76d11144861995/IQCQJALtZKfCTZc3UuSOwDK_AcsdRYPaix-R3w8p2-IH65A?e=ltq6lR",
-      pmp:       "https://1drv.ms/b/c/1d76d11144861995/IQAo0HIJbG8PTJ6Cl1vERE0LAXym83J_NBsdVGLTY_1DegE?e=JJvIVZ",
-      projetos:  "https://1drv.ms/b/c/1d76d11144861995/IQDHoz7-gUKVQ5g2fzDWamBdAVb2IzceMhTO0Ft9Y5WOFLo?e=UqaoK6"
+      manual:               "COLE_AQUI_O_LINK_ONEDRIVE_MANUAL_101",
+      pmp:                  "COLE_AQUI_O_LINK_ONEDRIVE_PMP_101",
+      memorial:             "COLE_AQUI_O_LINK_ONEDRIVE_MEMORIAL_101",
+      caderno_projetos:     "COLE_AQUI_O_LINK_ONEDRIVE_CADERNO_101",
+      documentos_projetos:  "COLE_AQUI_O_LINK_ONEDRIVE_DOCUMENTOS_101"
     },
     "102": {
-      manual:    "COLE_AQUI_O_LINK_ONEDRIVE_MANUAL_102",
-      pmp:       "COLE_AQUI_O_LINK_ONEDRIVE_PMP_102",
-      projetos:  "COLE_AQUI_O_LINK_ONEDRIVE_PROJETOS_102"
+      manual:               "COLE_AQUI_O_LINK_ONEDRIVE_MANUAL_102",
+      pmp:                  "COLE_AQUI_O_LINK_ONEDRIVE_PMP_102",
+      memorial:             "COLE_AQUI_O_LINK_ONEDRIVE_MEMORIAL_102",
+      caderno_projetos:     "COLE_AQUI_O_LINK_ONEDRIVE_CADERNO_102",
+      documentos_projetos:  "COLE_AQUI_O_LINK_ONEDRIVE_DOCUMENTOS_102"
     }
     // adicione as demais 30 unidades seguindo o mesmo padrão...
   };
 
   const CARD_DEFS = [
-    { key: "manual",    t: "Manual de Uso, Operação e Manutenção" },
-    { key: "pmp",       t: "Plano de manutenção (PMP)" },
-    { key: "projetos",  t: "Caderno de projetos" }
+    { key: "manual",              t: "Manual de Uso, Operação e Manutenção" },
+    { key: "pmp",                 t: "Plano de Manutenção Preventiva - PMP" },
+    { key: "memorial",            t: "Memorial de Acabamentos" },
+    { key: "caderno_projetos",    t: "Caderno de Projetos" },
+    { key: "documentos_projetos", t: "Documentos e Projetos" }
   ];
   // ======================================================================
+
+  // Transforma o link normal do OneDrive num link que abre só o documento,
+  // sem a interface do OneDrive por volta.
+  function toCleanViewUrl(url){
+    if(!url) return url;
+    if(url.indexOf("action=embedview") !== -1) return url;
+    const sep = url.indexOf("?") === -1 ? "?" : "&";
+    return url + sep + "action=embedview";
+  }
 
   function init(){
     const params = new URLSearchParams(window.location.search);
@@ -119,7 +134,7 @@
       if(!url || url.indexOf("COLE_AQUI") === 0) return;
       const a = document.createElement("a");
       a.className = "card";
-      a.href = url;
+      a.href = toCleanViewUrl(url);
       a.target = "_blank";
       a.rel = "noopener";
       a.innerHTML = '<div class="t">' + def.t + '</div><div class="s">abrir documento →</div>';
